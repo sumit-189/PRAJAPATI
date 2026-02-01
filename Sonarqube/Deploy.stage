@@ -1,0 +1,92 @@
+master ip:8080  --> setup jenkins 
+slave connect 
+    sudo -i
+    apt update 
+    update-alternatives --config java 
+        :0(java:21)
+jenkins -> node -> relaunch 
+sonar --> connect 
+    sudo -i
+    yum update 
+    cd /opt/sonar/bin/linux../
+    ./sonar start
+    ./sonar status
+sonar ip:9000 --> sonar setup (11)
+SCM-pipeline  ----- artifact comment 
+launch instances (ubuntu )
+    name: tomcat 
+    sg: port ->8080  anywhere
+    storage : 12 GiB
+    instance size : 2/4
+install tomcat apache 
+    9 download
+    tar.gz (pgp, sha512) ---copy link address   ----- https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.115/bin/apache-tomcat-9.0.115.tar.gz
+connect tomcat 
+    sudo -i
+    apt update -y
+    wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.115/bin/apache-tomcat-9.0.115.tar.gz  -C /opt
+    cd /opt
+    ls
+    cd apache.tomcat .....
+    cd bin/
+    apt install openjdk-11-jdk -y
+    ./catalina.sh start 
+public ip of tomcat :8080 -> displayed 
+    manager app 
+    see and add users below 
+    
+    cd
+    cd /opt/apache..
+    cd conf/
+    ls
+    vim tomcat-users.xml
+          add users  and set passwords from apache tomcat managers 
+    cd ..
+    ls
+    cd manager/  
+    ls
+    cd META.INF/
+    ls
+    vim context.xml 
+            comment lines that contain ---  value class name ---
+    cd ../..
+    ls
+    cd bin/
+    ls
+    ./catalina.sh stop 
+    ./catalina.sh start 
+refresh apache tomcat 
+    user name: 
+    password: 
+    login
+plugin : deploy to container download and github ->download
+restart jenkins 
+pipeline syntax 
+    deploy to container 
+    war/tar file : **/*.war
+    context path : /
+    add container --> tomcat 9
+    credential --> add -> jenkins
+          username with password
+            name:linux
+            password:redhat
+            ID : tomcat-cred
+            ADD
+    select credential 
+    URL : tomcat -> https://PUBIp:8080/
+    generate pipeline syntax
+    copy 
+    paste on deploy stage 
+SCM-pipeline -->build now
+go to apache tomcat URL and refresh 
+repository -> setting -> webhooks -> add 
+  verification 
+  payload URL -> jenkins url (http://pubip:8080/github-webhooks/
+  just the push event -> add webhooks
+jenkins -> configure -> trigger  -> github hook triggres-> apply and save 
+go to repository  -> student-ui -> setting -> webhooks v add 
+  ->payload url->same github-webhook/-> add
+student-ui -> readme -> changes -> commit changes
+pipeline -> see triggers has been occured 
+
+    
